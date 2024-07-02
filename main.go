@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
+	"net/http"
 	"time"
 )
 
@@ -35,4 +37,17 @@ func main() {
 		count += i
 	}
 	fmt.Printf("Count %d\n", count)
+
+	http.HandleFunc("/", handler)
+	http.HandleFunc("/cars", handlerCars)
+	log.Fatal(http.ListenAndServe(":8080", nil))
+
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hi there!")
+}
+
+func handlerCars(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<div>Dodge</div><div>GMC</div>")
 }
